@@ -97,8 +97,4 @@ We welcome contributions! Here's how:
 
 ## 📝 License
 
-MIT Licensed - Feel free to use and modify!
-
----
-
-Made with ❤️ for book lovers and continuous learners
+GNU GPLv3 Licensed - Feel free to use and modify!
