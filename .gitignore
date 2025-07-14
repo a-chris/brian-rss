@@ -1,0 +1,16 @@
+# IDE
+.vscode
+.DS_Store
+
+# Development
+.env
+release.sh
+docker-compose.yml.local
+
+# Data
+feed/feed.rss
+feed/history.json
+
+# Audio files
+audio/*.mp3
+!audio/test.mp3
