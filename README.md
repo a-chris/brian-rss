@@ -4,6 +4,8 @@ AI-powered RSS feeds for for book lovers and continuous learners. Brian RSS crea
 
 My personal instance is available at [brian.achris.me/rss](https://brian.achris.me/rss), feel free to add it to your preferred RSS reader 😎
 
+![screenshot](readme/screenshot.jpeg)
+
 ## ✨ What is Brian RSS?
 
 Brian is your personal book companion that:
