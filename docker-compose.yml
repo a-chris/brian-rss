@@ -12,8 +12,8 @@ services:
       PORT: 4567
       FEED_TITLE: "Brian: achris RSS Feed"
       FEED_LINK: https://achris.me
-      FEED_DOMAIN: "brian.achris.me"
-      FEED_DESCRIPTION: "AI-Generated RSS Feeds from books I would like to learn more about"
+      FEED_DOMAIN: brian.achris.me
+      FEED_DESCRIPTION: AI-Generated RSS Feeds from books I would like to learn more about
       MODEL: gpt-4o
       DEEP_SEEK_ACCESS_TOKEN: not-used-right-now
       OPENAI_ACCESS_TOKEN: your-openai-access-token
