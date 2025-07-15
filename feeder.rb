@@ -9,7 +9,7 @@ require_relative "models/topic"
 require_relative "models/history_entry"
 
 class Feeder
-  CACHE_FILE = "feed/feed.rss"
+  FEED_FILE = "feed/feed.rss"
   HISTORY_FILE = "feed/history.json"
 
   #
@@ -30,14 +30,14 @@ class Feeder
 
     puts "New topics: #{new_topics.map(&:topic).join(", ")}"
     rss =
-      if File.exist?(CACHE_FILE)
+      if File.exist?(FEED_FILE)
         merge_feed(new_topics)
       else
         create_feed(new_topics)
       end
 
     # update rss feed
-    File.write(CACHE_FILE, rss.to_s)
+    File.write(FEED_FILE, rss.to_s)
     new_topics.each do |topic|
       File.binwrite("audio/#{topic.id}.mp3", topic.audio) if topic.audio
     end
@@ -63,7 +63,7 @@ class Feeder
   end
 
   def self.merge_feed(new_topics)
-    old_feed = RSS::Parser.parse(File.read(CACHE_FILE))
+    old_feed = RSS::Parser.parse(File.read(FEED_FILE))
 
     RSS::Maker.make("2.0") do |maker|
       maker = create_channel(maker)

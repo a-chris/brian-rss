@@ -32,12 +32,12 @@ get "/health" do
 end
 
 get "/rss" do
-  if File.exist?(Feeder::CACHE_FILE)
+  if File.exist?(Feeder::FEED_FILE)
     content_type "application/rss+xml"
     cache_control :public, :must_revalidate, max_age: 300  # 5 minutes
-    last_modified File.mtime(Feeder::CACHE_FILE)
+    last_modified File.mtime(Feeder::FEED_FILE)
     headers "Pragma" => "no-cache"
-    File.read(Feeder::CACHE_FILE)
+    File.read(Feeder::FEED_FILE)
   else
     status 404
     "Feed not found"
