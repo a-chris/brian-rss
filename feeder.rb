@@ -75,7 +75,7 @@ class Feeder
           new_item.guid.content = item.guid.content
           new_item.guid.isPermaLink = item.guid.isPermaLink
           new_item.title = item.title
-          new_item.description = sanitize_content(item.description)
+          new_item.description = item.description
           new_item.pubDate = item.pubDate
           new_item.link = item.link if item.link
           new_item.author = item.author
@@ -101,10 +101,10 @@ class Feeder
         item.guid.content = topic.id
         item.guid.isPermaLink = false
         item.title = topic.topic
-        item.description = sanitize_content(topic.description)
+        item.description = enriched_description(topic)
         item.date = Time.now
         item.author = topic.book
-        item.link = "https://#{ENV["FEED_DOMAIN"]}/audio/#{topic.id}"
+        item.link = link(topic)
       end
     end
 
@@ -113,5 +113,16 @@ class Feeder
 
   def self.sanitize_content(content)
     content.gsub(",", ", ").gsub("‚", ",")
+  end
+
+  def self.enriched_description(topic)
+    description = sanitize_content(topic.description)
+    return description if topic.audio.nil?
+
+    "<a href=\"#{ENV["FEED_DOMAIN"]}/audio/#{topic.id}\">Voice recording</a><br><br>#{topic.description}"
+  end
+
+  def self.link(topic)
+    "https://#{ENV["FEED_DOMAIN"]}/audio/#{topic.id}"
   end
 end
