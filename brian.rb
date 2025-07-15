@@ -8,9 +8,10 @@ class Brian
   MODEL = ENV["MODEL"]
 
   SYSTEM_PROMPT = <<~TEXT
-    Choose a topic from the chosen book and create a detailed analysis of the topic, including the whys, how and what results.
+    Choose one topic from the chosen book and create a detailed analysis of the topic, including the whys, how and what results.
 
-    The analysis should be comprehensive and practical, with real-world examples and actionable insights if the topic allows them.
+    The analysis should start by explaining the idea or concept very clearly and with simple terms.
+    It could be useful to make practical examples with real-world and actionable insights if the topic allows them.
     Be engaging and even funny to keep the reader attention and make it pleasant to read, as if you were explaining it to a friend who has never heard of the book before.
     The goal is to provide a deep understanding of the topic and its significance to people who are not familiar with the book.
     Do not repeat sentences or phrases from the book, but rather explain the concepts in your own words. Do not lose the context of the book and its themes.
