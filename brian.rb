@@ -49,7 +49,7 @@ class Brian
     topic, description = generate_post(book, covered_topics)
     return unless topic && description
 
-    audio = generate_audio(description)
+    audio = generate_audio(remove_html_tags(description))
     Topic.new(
       id: SecureRandom.uuid,
       book:,
@@ -101,5 +101,9 @@ class Brian
     else
       "The book is #{book}. Please avoid the #{covered_topics.join(",")}, as we already covered them in the previous analysis."
     end
+  end
+
+  def self.remove_html_tags(text)
+    text.gsub(/<[^>]*>/, "").gsub(/&nbsp;/, " ").gsub(/&amp;/, "&").strip
   end
 end
