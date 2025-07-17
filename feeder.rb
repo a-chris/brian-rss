@@ -2,7 +2,6 @@
 
 require "rss"
 require "securerandom"
-require "htmlentities"
 
 require_relative "brian"
 require_relative "models/topic"
@@ -119,7 +118,7 @@ class Feeder
     description = sanitize_content(topic.description)
     return description if topic.audio.nil?
 
-    "<a href=\"#{ENV["FEED_DOMAIN"]}/audio/#{topic.id}\">Voice recording</a><br><br>#{topic.description}"
+    "<a href=\"https://#{ENV["FEED_DOMAIN"]}/audio/#{topic.id}\">Listen to the audio</a><br><br>#{topic.description}"
   end
 
   def self.link(topic)
