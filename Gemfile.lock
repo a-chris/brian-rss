@@ -7,6 +7,7 @@ GEM
     debug (1.11.0)
       irb (~> 1.10)
       reline (>= 0.3.8)
+    diff-lcs (1.6.2)
     dotenv (3.1.8)
     erb (5.0.1)
     event_stream_parser (1.0.0)
@@ -76,6 +77,19 @@ GEM
     rerun (0.14.0)
       listen (~> 3.0)
     rexml (3.4.1)
+    rspec (3.13.1)
+      rspec-core (~> 3.13.0)
+      rspec-expectations (~> 3.13.0)
+      rspec-mocks (~> 3.13.0)
+    rspec-core (3.13.5)
+      rspec-support (~> 3.13.0)
+    rspec-expectations (3.13.5)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.13.0)
+    rspec-mocks (3.13.5)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.13.0)
+    rspec-support (3.13.4)
     rss (0.3.1)
       rexml
     rubocop (1.77.0)
@@ -92,6 +106,13 @@ GEM
     rubocop-ast (1.45.1)
       parser (>= 3.3.7.2)
       prism (~> 1.4)
+    rubocop-performance (1.25.0)
+      lint_roller (~> 1.1)
+      rubocop (>= 1.75.0, < 2.0)
+      rubocop-ast (>= 1.38.0, < 2.0)
+    rubocop-rspec (3.6.0)
+      lint_roller (~> 1.1)
+      rubocop (~> 1.72, >= 1.72.1)
     ruby-openai (8.1.0)
       event_stream_parser (>= 0.3.0, < 2.0.0)
       faraday (>= 1)
@@ -108,6 +129,7 @@ GEM
     sinatra-cors (1.2.0)
     stringio (3.1.7)
     tilt (2.6.0)
+    timecop (0.9.10)
     unicode-display_width (3.1.4)
       unicode-emoji (~> 4.0, >= 4.0.4)
     unicode-emoji (4.0.4)
@@ -115,7 +137,7 @@ GEM
 
 PLATFORMS
   arm64-darwin-23
-  ruby
+  arm64-darwin-24
 
 DEPENDENCIES
   debug (>= 1.0.0)
@@ -124,11 +146,16 @@ DEPENDENCIES
   puma (~> 6.6)
   rackup (~> 2.2)
   rerun
+  rspec (~> 3.13)
+  rspec-mocks (~> 3.13)
   rss (~> 0.3.1)
   rubocop
+  rubocop-performance
+  rubocop-rspec
   ruby-openai
   sinatra (~> 4.1)
   sinatra-cors
+  timecop
 
 RUBY VERSION
    ruby 3.4.4p34

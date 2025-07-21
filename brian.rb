@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require "securerandom"
 
 require_relative "client"
@@ -35,16 +36,11 @@ class Brian
   TEXT
 
   def self.run(book, covered_topics = [])
-    if ENV["ENVIRONMENT"] == "development"
-      puts "Running in development mode, returning a dummy topic."
-      return Topic.new(
-        id: SecureRandom.uuid,
-        audio: File.read("audio/test.mp3"),
-        book: "Thinking, fast and slow by Daniel Kahneman",
-        topic: "test",
-        description: "test<b/><b/>test new line"
-      )
-    end
+    new.run(book, covered_topics)
+  end
+
+  def run(book, covered_topics = [])
+    return development_topic if development_mode?
 
     topic, description = generate_post(book, covered_topics)
     return unless topic && description
@@ -59,8 +55,27 @@ class Brian
     )
   end
 
-  def self.generate_post(book, covered_topics = [])
-    response = OPENAI_CLIENT.chat(
+  private
+
+  def client = OPENAI_CLIENT
+
+  def development_mode?
+    ENV["ENVIRONMENT"] == "development"
+  end
+
+  def development_topic
+    puts "Running in development mode, returning a dummy topic."
+    Topic.new(
+      id: SecureRandom.uuid,
+      audio: File.read("audio/test.mp3"),
+      book: "Thinking, fast and slow by Daniel Kahneman",
+      topic: "test",
+      description: "test<b/><b/>test new line"
+    )
+  end
+
+  def generate_post(book, covered_topics = [])
+    response = client.chat(
       parameters: {
         model: MODEL,
         messages: [
@@ -79,8 +94,8 @@ class Brian
     []
   end
 
-  def self.generate_audio(text)
-    OPENAI_CLIENT.audio.speech(
+  def generate_audio(text)
+    client.audio.speech(
       parameters: {
         model: "gpt-4o-mini-tts",
         input: text,
@@ -95,7 +110,7 @@ class Brian
     []
   end
 
-  def self.user_prompt(book, covered_topics)
+  def user_prompt(book, covered_topics)
     if covered_topics.empty?
       "The book is #{book}."
     else
@@ -103,7 +118,7 @@ class Brian
     end
   end
 
-  def self.remove_html_tags(text)
-    text.gsub(/<[^>]*>/, "").gsub(/&nbsp;/, " ").gsub(/&amp;/, "&").strip
+  def remove_html_tags(text)
+    text.gsub(/<[^>]*>/, "").gsub("&nbsp;", " ").gsub("&amp;", "&").strip
   end
 end

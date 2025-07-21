@@ -16,6 +16,14 @@ gem "htmlentities"
 group :development do
   gem "debug", ">= 1.0.0"
   gem "rubocop"
+  gem "rubocop-performance"
+  gem "rubocop-rspec"
   gem "rerun"
   gem "dotenv"
+end
+
+group :test do
+  gem "timecop"
+  gem "rspec", "~> 3.13"
+  gem "rspec-mocks", "~> 3.13"
 end
