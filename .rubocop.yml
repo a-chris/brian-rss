@@ -1,5 +1,7 @@
 # Standard Ruby Style Guide
 # https://github.com/standardrb/standard/blob/main/config/ruby-3.3.yml
+AllCops:
+  NewCops: enable
 
 Style/ItBlockParameter:
   Enabled: false
