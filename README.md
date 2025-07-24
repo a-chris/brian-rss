@@ -4,6 +4,8 @@ Daily RSS feed for continuous learners. Brian RSS creates personalized learning 
 
 Want to see it in action? Check out my personal feed at [brian.achris.me/rss](https://brian.achris.me/rss) 📚
 
+Public Docker images is available at [Docker Hub](https://hub.docker.com/r/achris15/brian-rss).
+
 ![screenshot](readme/screenshot.jpeg)
 
 ## ✨ What is Brian RSS?
@@ -30,43 +32,29 @@ Want to see it in action? Check out my personal feed at [brian.achris.me/rss](ht
 
 ## 🏗️ Quick Start
 
-### Docker Setup (Recommended)
+### 👉 Docker Compose Run (Recommended)
 
-Build with Docker:
+You can use Docker Compose to quickly set up and run Brian RSS.
 
-```bash
-docker build -t brian-rss .
-```
+Start from the `docker-compose.yml` file present in the repository and personalize it with your environment variables.
 
-Configure your environment in `docker-compose.yml`:
-
-```yaml
+```yml
 environment:
-  FEED_TITLE: your-title # Your RSS feed title
-  FEED_LINK: your-feed-channel-link # Your RSS feed URL
-  FEED_DOMAIN: your-domain.com # Your domain name
-  FEED_DESCRIPTION: awesome-description # Brief description of your feed
-  MODEL: gpt-4 # OpenAI model to use
-  OPENAI_ACCESS_TOKEN: sk-xxx # Your OpenAI API key
-  AWS_ACCESS_KEY_ID: your-aws-key # AWS access key for Polly
-  AWS_SECRET_ACCESS_KEY: your-aws-secret # AWS secret for Polly
-  AWS_REGION: us-east-1 # AWS region for Polly
+  RACK_ENV: production
+  ENVIRONMENT: production
+  PORT: 4567
+  FEED_TITLE: "Brian: achris RSS Feed"
+  FEED_LINK: https://achris.me
+  FEED_DOMAIN: brian.achris.me
+  FEED_DESCRIPTION: AI-Generated RSS Feeds from books I would like to learn more about
+  MODEL: gpt-4o
+  OPENAI_ACCESS_TOKEN: your-openai-access-token
 ```
 
-Finally, run the container:
+Then, start your Brian RSS instance with:
 
 ```bash
 docker compose up -d
-```
-
-### Manual Setup
-
-```bash
-# Install dependencies
-bundle install
-
-# Start the application
-ruby main.rb
 ```
 
 ## 📖 How to Use
