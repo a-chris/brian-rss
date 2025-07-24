@@ -48,7 +48,6 @@ FEED_LINK: your-feed-channel-link
 FEED_DOMAIN: your-domain.com
 FEED_DESCRIPTION: awesome-description
 MODEL: gpt-4o
-DEEP_SEEK_ACCESS_TOKEN: not-used-right-now
 OPENAI_ACCESS_TOKEN: your-openai-access-token
 ```
 
