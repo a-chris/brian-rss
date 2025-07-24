@@ -7,7 +7,7 @@ COPY Gemfile* ./
 RUN apk add --no-cache build-base yaml-dev libffi-dev && \
   bundle install
 
-FROM ruby:3.4-alpine
+FROM ruby:3.4.4-alpine
 
 WORKDIR /app
 
