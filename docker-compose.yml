@@ -1,6 +1,6 @@
 services:
   web:
-    image: brian-rss:latest
+    image: achris15/brian-rss:latest
     ports:
       - "3006:4567"
     volumes:
