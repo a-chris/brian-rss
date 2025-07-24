@@ -9,21 +9,16 @@ class Brian
   MODEL = ENV["MODEL"]
 
   SYSTEM_PROMPT = <<~TEXT
-    Choose one topic from the chosen book and create a detailed analysis of the topic, including the whys, how and what results.
+    Create a detailed analysis of the topic chosen by the user, including the whys, how and what results.
 
-    The analysis should start by explaining the idea or concept very clearly and with simple terms.
+    Do not add commentary or colloquial phrases, just focus on the topic itself.
+    The analysis should start by explaining the idea or concept very clearly and with simple terms, assume the user didn't read the book.
     It could be useful to make practical examples with real-world and actionable insights if the topic allows them.
     Be engaging and even funny to keep the reader attention and make it pleasant to read, as if you were explaining it to a friend who has never heard of the book before.
     The goal is to provide a deep understanding of the topic and its significance to people who are not familiar with the book.
     Do not repeat sentences or phrases from the book, but rather explain the concepts in your own words. Do not lose the context of the book and its themes.
-    Use valid html tags to format the text and make it easier to read. Absolutely avoid markdown syntax and invalid characters.
+    Use valid html tags to better format the text and make it easier to read. Absolutely avoid CSS and Markdown formatting.
     Keep a B2+ level of English.
-
-    Reply with a JSON object with the following structure:
-    {
-      "topic": "the topic you chose from the book",
-      "description": "the detailed analysis of the topic"
-    }
   TEXT
 
   AUDIO_PROMPT = <<~TEXT
@@ -42,7 +37,10 @@ class Brian
   def run(book, covered_topics = [])
     return development_topic if development_mode?
 
-    topic, description = generate_post(book, covered_topics)
+    topic = choose_topic(book, covered_topics)
+    return if topic.nil? || topic.empty?
+
+    description = generate_post(book, topic)
     return unless topic && description
 
     audio = generate_audio(remove_html_tags(description))
@@ -74,21 +72,33 @@ class Brian
     )
   end
 
-  def generate_post(book, covered_topics = [])
+  def choose_topic(book, covered_topics)
     response = client.chat(
       parameters: {
         model: MODEL,
         messages: [
-          {role: "system", content: SYSTEM_PROMPT},
-          {role: "user", content: user_prompt(book, covered_topics)}
+          {role: "user", content: pick_topic_prompt(book, covered_topics)}
         ],
         temperature: 1
       }
     ).dig("choices", 0, "message", "content")
+    response.strip
+  rescue => e
+    puts "Error generating topic: #{e.message}"
+    nil
+  end
 
-    json = JSON.parse(response)
-
-    [json["topic"], json["description"]]
+  def generate_post(book, topic)
+    client.chat(
+      parameters: {
+        model: MODEL,
+        messages: [
+          {role: "system", content: SYSTEM_PROMPT},
+          {role: "user", content: user_prompt(book, topic)}
+        ],
+        temperature: 1
+      }
+    ).dig("choices", 0, "message", "content")
   rescue JSON::ParserError => e
     puts "Error parsing JSON response: #{e.message}\nResponse: #{response}"
     []
@@ -110,12 +120,16 @@ class Brian
     []
   end
 
-  def user_prompt(book, covered_topics)
+  def pick_topic_prompt(book, covered_topics)
     if covered_topics.empty?
-      "The book is #{book}."
+      "Please choose a topic from the book #{book}. Only return the topic, no other text, explaining or commentary."
     else
-      "The book is #{book}. Please avoid the #{covered_topics.join(",")}, as we already covered them in the previous analysis."
+      "Please choose a new topic from the book #{book}, avoiding the following topics: #{covered_topics.join(", ")}. Only return the topic, no other text, explaining or commentary."
     end
+  end
+
+  def user_prompt(book, topic)
+    "The book is #{book} and the chosen topic is #{topic}"
   end
 
   def remove_html_tags(text)
