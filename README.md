@@ -1,16 +1,14 @@
-# 🧠 Brian
+# 🧠 Brian RSS
 
-AI-powered RSS feeds for for book lovers and continuous learners. Brian RSS creates personalized learning content about your favorite books, delivered daily through RSS and audio formats.
+Daily RSS feed for continuous learners. Brian RSS creates personalized learning content about your favorite books, delivered daily through RSS and audio formats.
 
-My personal instance is available at [brian.achris.me/rss](https://brian.achris.me/rss), feel free to add it to your preferred RSS reader 😎
+Want to see it in action? Check out my personal feed at [brian.achris.me/rss](https://brian.achris.me/rss) 📚
 
 ![screenshot](readme/screenshot.jpeg)
 
 ## ✨ What is Brian RSS?
 
-Brian is your personal book companion that:
-
-- Generates intelligent RSS feeds about books you love
+- Generates intelligent RSS feeds about books you love or want to read
 - Creates audio recordings for easy listening
 - Delivers fresh content daily
 - Makes learning from books more engaging and interactive
@@ -25,10 +23,10 @@ Brian is your personal book companion that:
 
 ## 🛠️ Tech Stack
 
-- Ruby & Sinatra for the core application
-- Docker for containerization
-- AI integration for content generation
-- Automated scheduling with cron
+- Ruby & Sinatra for the lightweight, fast API
+- Docker for easy deployment and scaling
+- OpenAI for intelligent content and audio generation
+- Cron jobs for automated scheduling
 
 ## 🏗️ Quick Start
 
@@ -40,15 +38,19 @@ Build with Docker:
 docker build -t brian-rss .
 ```
 
-Fill the `docker-compose.yml` with your configuration and API keys:
+Configure your environment in `docker-compose.yml`:
 
 ```yaml
-FEED_TITLE: your-title
-FEED_LINK: your-feed-channel-link
-FEED_DOMAIN: your-domain.com
-FEED_DESCRIPTION: awesome-description
-MODEL: gpt-4o
-OPENAI_ACCESS_TOKEN: your-openai-access-token
+environment:
+  FEED_TITLE: your-title # Your RSS feed title
+  FEED_LINK: your-feed-channel-link # Your RSS feed URL
+  FEED_DOMAIN: your-domain.com # Your domain name
+  FEED_DESCRIPTION: awesome-description # Brief description of your feed
+  MODEL: gpt-4 # OpenAI model to use
+  OPENAI_ACCESS_TOKEN: sk-xxx # Your OpenAI API key
+  AWS_ACCESS_KEY_ID: your-aws-key # AWS access key for Polly
+  AWS_SECRET_ACCESS_KEY: your-aws-secret # AWS secret for Polly
+  AWS_REGION: us-east-1 # AWS region for Polly
 ```
 
 Finally, run the container:
@@ -81,10 +83,10 @@ ruby main.rb
 ]
 ```
 
-2. Brian automatically generates new content daily at 6:00 AM UTC:
-   - Fresh RSS feed entries for each book
-   - Audio recordings for on-the-go learning
-   - Intelligent insights and recordings
+2. Access your feed:
+   - RSS feed available at: `http://your-domain.com/rss`
+   - Audio files at: `http://your-domain.com/audio/<filename>`
+   - Daily updates at 6:00 AM UTC
 
 ## 🤝 Contributing
 
