@@ -1,42 +1,58 @@
 # 🧠 Brian RSS
 
+> Brian is an anagram of 🧠 brain.
+
 Daily RSS feed for continuous learners. Brian RSS creates personalized learning content about your favorite books, delivered daily through RSS and audio formats.
 
 Want to see it in action? Check out my personal feed at [brian.achris.me/rss](https://brian.achris.me/rss) 📚
 
-Public Docker images is available at [Docker Hub](https://hub.docker.com/r/achris15/brian-rss).
+Public Docker images available at [Docker Hub](https://hub.docker.com/r/achris15/brian-rss).
 
 ![screenshot](readme/screenshot.jpeg)
 
-## ✨ What is Brian RSS?
+## ✨ What does Brian RSS do?
 
-- Generates intelligent RSS feeds about books you love or want to read
-- Creates audio recordings for easy listening
-- Delivers fresh content daily
-- Makes learning from books more engaging and interactive
+- Keeps a list of books you want to learn more about
+- Extract a new random topic from each book
+- Generate a summary of that topic using AI
+- Create audio summaries in a podcast-like format
+- Deliver these content daily through RSS feeds
 
-## 🚀 Features
-
-- AI-powered RSS feed generation
-- Text-to-speech audio recordings
-- Daily automated content updates
-- Docker-ready deployment
-- Simple JSON configuration
+Brian RSS leverages OpenAI's model knowledge about books, so you don't need to upload any book content or PDF to generate summaries.
 
 ## 🛠️ Tech Stack
 
-- Ruby & Sinatra for the lightweight, fast API
-- Docker for easy deployment and scaling
-- OpenAI for intelligent content and audio generation
-- Cron jobs for automated scheduling
+- Ruby & Sinatra
+- Docker
+- OpenAI API
+- Cron scheduling
+
+The models used are:
+
+- **gpt-4o** for text generation
+- **tts-1** for text-to-speech audio generation
+
+No database is required, as all data is stored in a simple JSON file.
+
+## 💲 Cost
+
+Brian RSS is free to use, but you will need an OpenAI API key for the AI features. The cost will depend on your usage of the OpenAI API.
+From my personal experience, while using the cheapest **tts-1** text-to-speech model, **the cost is approximately $0.05 per post generated, including text + audio.**
 
 ## 🏗️ Quick Start
+
+## 📋 Prerequisites
+
+- Docker and Docker Compose installed
+- OpenAI API key (get one at https://platform.openai.com)
+- Basic understanding of RSS feeds
+- A domain name (optional, for public hosting)
 
 ### 👉 Docker Compose Run (Recommended)
 
 You can use Docker Compose to quickly set up and run Brian RSS.
 
-Start from the `docker-compose.yml` file present in the repository and personalize it with your environment variables.
+1. Start from the `docker-compose.yml` file present in the repository and personalize it with your environment variables.
 
 ```yml
 environment:
@@ -51,15 +67,9 @@ environment:
   OPENAI_ACCESS_TOKEN: your-openai-access-token
 ```
 
-Then, start your Brian RSS instance with:
+2. Configure your reading list in `history.json` by provinding the book title and its author, topics covered, and last updated date.
 
-```bash
-docker compose up -d
-```
-
-## 📖 How to Use
-
-1. Configure your reading list in `history.json`:
+Example:
 
 ```json
 [
@@ -71,7 +81,13 @@ docker compose up -d
 ]
 ```
 
-2. Access your feed:
+3. Then, start your Brian RSS instance with:
+
+```bash
+docker compose up -d
+```
+
+4. Access your feed:
    - RSS feed available at: `http://your-domain.com/rss`
    - Audio files at: `http://your-domain.com/audio/<filename>`
    - Daily updates at 6:00 AM UTC
