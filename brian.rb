@@ -107,7 +107,7 @@ class Brian
   def generate_audio(text)
     client.audio.speech(
       parameters: {
-        model: "gpt-4o-mini-tts",
+        model: "tts-1",
         input: text,
         instructions: AUDIO_PROMPT,
         voice: "shimmer",
