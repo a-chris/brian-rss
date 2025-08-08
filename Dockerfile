@@ -12,7 +12,7 @@ FROM ruby:3.4.4-alpine
 WORKDIR /app
 
 RUN touch /app/cron.log && chmod 644 /app/cron.log
-RUN echo "0 6 * * * cd /app && ruby task.rb >> /app/cron.log 2>&1" | crontab -
+RUN echo "0 6 * * * cd /app && ruby task.rb 2>&1" | crontab -
 
 COPY --from=builder /usr/local/bundle/ /usr/local/bundle/
 COPY . .

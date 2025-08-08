@@ -6,6 +6,7 @@ require "sinatra"
 require "debug" if ENV["ENVIRONMENT"] == "development"
 
 require_relative "feeder"
+require_relative "logger"
 
 set :port, ENV.fetch("PORT", 4567)
 set :bind, "0.0.0.0"
@@ -22,6 +23,14 @@ set :allow_headers, "content-type,if-modified-since"
 set :allow_credentials, true
 
 disable :protection
+
+configure do
+  use Rack::CommonLogger, LOGGER
+  set :logger, LOGGER
+
+  # Disable the default Sinatra logging
+  set :logging, false
+end
 
 get "/" do
   "Welcome to Brian RSS!"

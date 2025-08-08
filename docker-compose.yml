@@ -3,13 +3,19 @@ services:
     image: achris15/brian-rss:latest
     ports:
       - "3006:4567"
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "1"
     volumes:
       - ./feed:/app/feed
       - ./audio:/app/audio
     environment:
+      PORT: 4567
       RACK_ENV: production
       ENVIRONMENT: production
-      PORT: 4567
+      DOCKER_LOGS: 1
       FEED_TITLE: "Brian: achris RSS Feed"
       FEED_LINK: https://achris.me
       FEED_DOMAIN: brian.achris.me
