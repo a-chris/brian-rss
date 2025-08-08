@@ -22,7 +22,7 @@ set :allow_methods, "GET,HEAD,POST"
 set :allow_headers, "content-type,if-modified-since"
 set :allow_credentials, true
 
-disable :protection
+disable :protection if ENV["ENVIRONMENT"] == "development"
 
 configure do
   use Rack::CommonLogger, LOGGER
