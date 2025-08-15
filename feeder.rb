@@ -64,10 +64,6 @@ class Feeder
     end
   end
 
-  def write_history_file(history)
-    @file_system.write(HISTORY_FILE, JSON.pretty_generate(history))
-  end
-
   def create_feed(new_topics)
     RSS::Maker.make("2.0") do |maker|
       maker = create_channel(maker)
