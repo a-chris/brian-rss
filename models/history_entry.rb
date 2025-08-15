@@ -1,9 +1,18 @@
-class HistoryEntry < Struct.new(:book, :covered_topics, :updated_at)
+require "json"
+
+class HistoryEntry < Struct.new(:book, :generate_audio, :covered_topics, :updated_at, keyword_init: true)
+  def initialize(**)
+    super
+    self.generate_audio = true if generate_audio.nil?
+    self.covered_topics ||= []
+  end
+
   def to_json(*_args)
     JSON.generate({
-      book: book,
-      covered_topics: covered_topics,
-      updated_at: updated_at
+      book:,
+      generate_audio:,
+      covered_topics:,
+      updated_at:
     })
   end
 end

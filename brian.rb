@@ -31,24 +31,47 @@ class Brian
     Pauses: Brief pauses after offering assistance or requesting details, highlighting willingness to listen and support.
   TEXT
 
-  def self.run(book, covered_topics = [])
-    new.run(book, covered_topics)
+  #
+  # Entry point to generate a new text topic and audio recording for this entry.
+  #
+  # @param entry [HistoryEntry]
+  # @return [Topic]
+  #
+  def self.run(entry)
+    new.run(entry)
   end
 
-  def run(book, covered_topics = [])
+  #
+  # Generates a new text topic and audio recording for this entry
+  # 1. If in development mode, returns a dummy topic
+  # 2. Chooses a new topic based on the book and covered topics
+  # 3. Generates a detailed description of the topic
+  # 4. Generates audio if requested
+  #
+  # @param entry [HistoryEntry]
+  # @return [Topic, nil] Returns a Topic object or nil if an error occurs
+  #
+  def run(entry)
     return development_topic if development_mode?
 
-    topic = choose_topic(book, covered_topics)
-    return if topic.nil? || topic.empty?
+    new_topic = choose_new_topic(entry.book, entry.covered_topics)
+    if new_topic.nil? || new_topic.empty?
+      LOGGER.error "Failed to generate a new topic for book: #{entry.book}"
+      return nil
+    end
 
-    description = generate_post(book, topic)
-    return unless topic && description
+    description = generate_post(entry.book, new_topic)
+    if description.nil? || description.empty?
+      LOGGER.error "Failed to generate a description for book: #{entry.book}"
+      return nil
+    end
 
-    audio = generate_audio(remove_html_tags(description))
+    audio = generate_audio(remove_html_tags(description)) if entry.generate_audio
+
     Topic.new(
       id: SecureRandom.uuid,
-      book:,
-      topic:,
+      book: entry.book,
+      topic: new_topic,
       audio:,
       description:
     )
@@ -73,7 +96,7 @@ class Brian
     )
   end
 
-  def choose_topic(book, covered_topics)
+  def choose_new_topic(book, covered_topics)
     response = client.chat(
       parameters: {
         model: MODEL,

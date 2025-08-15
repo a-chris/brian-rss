@@ -1,6 +1,7 @@
 [
   {
     "book": "Thinking, fast and slow by Daniel Kahneman",
+    "generate_audio: true,
     "covered_topics": [
       "Cognitive Biases and Heuristics"
     ],

@@ -36,14 +36,14 @@ class Feeder
   end
 
   def load_history
-    JSON.parse(@file_system.read(HISTORY_FILE))
-      .map { |entry| HistoryEntry.new(**entry) }
+    JSON.parse(@file_system.read(HISTORY_FILE), symbolize_names: true)
+      .map { HistoryEntry.new(**it) }
   end
 
   def generate_new_topics(history)
     history
-      .reject { |entry| DateTime.parse(entry.updated_at).to_date == Date.today }
-      .map { |entry| @brian.run(entry.book, entry.covered_topics) }
+      .reject { DateTime.parse(it.updated_at).to_date == Date.today }
+      .map { @brian.run(it) }
   end
 
   def build_rss_feed(new_topics)

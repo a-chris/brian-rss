@@ -15,7 +15,7 @@ Public Docker images available at [Docker Hub](https://hub.docker.com/r/achris15
 - Keeps a list of books you want to learn more about
 - Extract a new random topic from each book
 - Generate a summary of that topic using AI
-- Create audio summaries in a podcast-like format
+- Create audio summaries in a podcast-like format (optional)
 - Deliver these content daily through RSS feeds
 
 Brian RSS leverages OpenAI's model knowledge about books, so you don't need to upload any book content or PDF to generate summaries.
@@ -38,6 +38,8 @@ No database is required, as all data is stored in a simple JSON file.
 
 Brian RSS is free to use, but you will need an OpenAI API key for the AI features. The cost will depend on your usage of the OpenAI API.
 From my personal experience, while using the cheapest **tts-1** text-to-speech model, **the cost is approximately $0.05 per post generated, including text + audio.**
+
+You can turn off the audio generation by setting `generate_audio: false` in your `history.json` file, which will reduce the cost to about **$0.01 per post**.
 
 ## 🏗️ Quick Start
 
@@ -75,6 +77,7 @@ Example:
 [
   {
     "book": "Thinking, Fast and Slow by Daniel Kahneman",
+    "generate_audio": true,
     "covered_topics": ["Cognitive Biases and Heuristics"],
     "updated_at": "2024-01-01T10:00:00Z"
   }

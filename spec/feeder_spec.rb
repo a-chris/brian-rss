@@ -21,6 +21,7 @@ RSpec.describe Feeder do
       [
         {
           "book" => "Ruby Programming",
+          "generate_audio" => true,
           "covered_topics" => ["Variables", "Methods"],
           "updated_at" => "2025-01-14T10:00:00Z"
         },
@@ -46,18 +47,15 @@ RSpec.describe Feeder do
   end
 
   describe "#generate_new_topics" do
-    let(:history) do
-      [
-        HistoryEntry.new("Ruby Programming", ["Variables"], "2025-01-13T10:00:00Z")
-      ]
-    end
+    let(:history_entry) { HistoryEntry.new(book: "Ruby Programming", covered_topics: ["Variables"], updated_at: "2025-01-13T10:00:00Z") }
+    let(:history) { [history_entry] }
 
     let(:topic1) { Topic.new("id1", "Classes", "About Ruby classes", "Ruby Programming", nil) }
 
     it "generates topics for entries not updated today" do
       Timecop.freeze(Time.new(2025, 1, 14, 10, 0, 0, "+00:00"))
 
-      allow(brian).to receive(:run).with("Ruby Programming", ["Variables"]).and_return(topic1)
+      allow(brian).to receive(:run).with(history_entry).and_return(topic1)
       topics = feeder.generate_new_topics(history)
 
       expect(topics).to eq([topic1])
@@ -126,8 +124,8 @@ RSpec.describe Feeder do
   describe "#update_history" do
     let(:history) do
       [
-        HistoryEntry.new("Ruby Programming", ["Variables"], "2025-01-14T10:00:00Z"),
-        HistoryEntry.new("Rails Guide", ["Models"], "2025-01-13T10:00:00Z")
+        HistoryEntry.new(book: "Ruby Programming", covered_topics: ["Variables"], updated_at: "2025-01-14T10:00:00Z"),
+        HistoryEntry.new(book: "Rails Guide", covered_topics: ["Models"], updated_at: "2025-01-13T10:00:00Z")
       ]
     end
 
@@ -160,7 +158,7 @@ RSpec.describe Feeder do
   describe "#write_history_file" do
     let(:history) do
       [
-        HistoryEntry.new("Ruby Programming", ["Variables", "Classes"], "2025-01-15T10:00:00Z")
+        HistoryEntry.new(book: "Ruby Programming", covered_topics: ["Variables", "Classes"], updated_at: "2025-01-15T10:00:00Z")
       ]
     end
 
@@ -220,7 +218,7 @@ RSpec.describe Feeder do
   describe "#generate_feed" do
     let(:history) do
       [
-        HistoryEntry.new("Ruby Programming", ["Variables"], "2025-01-14T10:00:00Z")
+        HistoryEntry.new(book: "Ruby Programming", covered_topics: ["Variables"], updated_at: "2025-01-14T10:00:00Z")
       ]
     end
 
