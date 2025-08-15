@@ -3,6 +3,7 @@
 require "rss"
 require "securerandom"
 
+require_relative "logger"
 require_relative "brian"
 require_relative "models/topic"
 require_relative "models/history_entry"
@@ -25,7 +26,7 @@ class Feeder
     history = load_history
     new_topics = generate_new_topics(history)
 
-    puts "New topics: #{new_topics.map(&:topic).join(", ")}"
+    LOGGER.info "New topics: #{new_topics.map(&:topic).join(", ")}"
 
     rss = build_rss_feed(new_topics)
     write_feed_file(rss)

@@ -256,7 +256,7 @@ RSpec.describe Feeder do
     end
 
     it "prints new topics" do
-      expect(feeder).to receive(:puts).with("New topics: Classes")
+      expect(LOGGER).to receive(:info).with("New topics: Classes")
 
       feeder.generate_feed
     end
