@@ -3,7 +3,7 @@
 #
 
 require "dotenv/load"
-require_relative "feeder"
+require_relative "../feeder"
 require "debug" if ENV["ENVIRONMENT"] == "development"
 
 Feeder.generate_feed
