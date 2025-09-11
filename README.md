@@ -65,8 +65,11 @@ environment:
   FEED_LINK: https://achris.me
   FEED_DOMAIN: brian.achris.me
   FEED_DESCRIPTION: AI-Generated RSS Feeds from books I would like to learn more about
-  MODEL: gpt-4o
-  OPENAI_ACCESS_TOKEN: your-openai-access-token
+  TEXT_MODEL: gemini-2.5-flash
+  TEXT_PROVIDER: google
+  AUDIO_MODEL: gemini-2.5-flash-preview-tts
+  AUDIO_PROVIDER: google
+  ACCESS_TOKEN: my_access_token
 ```
 
 2. Configure your reading list in `history.json` by provinding the book title and its author, topics covered, and last updated date.
