@@ -6,7 +6,7 @@ require_relative "client"
 require_relative "models/topic"
 
 class Brian
-  MODEL = ENV["MODEL"]
+  TEXT_MODEL = ENV["TEXT_MODEL"]
 
   SYSTEM_PROMPT = <<~TEXT
     Create a detailed analysis of the topic chosen by the user, including the whys, how and what results.
@@ -52,7 +52,7 @@ class Brian
   # @return [Topic, nil] Returns a Topic object or nil if an error occurs
   #
   def run(entry)
-    return development_topic if development_mode?
+    # return development_topic if development_mode?
 
     new_topic = choose_new_topic(entry.book, entry.covered_topics)
     if new_topic.nil? || new_topic.empty?
@@ -79,7 +79,7 @@ class Brian
 
   private
 
-  def client = OPENAI_CLIENT
+  def client = AI_CLIENT
 
   def development_mode?
     ENV["ENVIRONMENT"] == "development"
@@ -99,7 +99,7 @@ class Brian
   def choose_new_topic(book, covered_topics)
     response = client.chat(
       parameters: {
-        model: MODEL,
+        model: "gemini-2.5-flash",
         messages: [
           {role: "user", content: pick_topic_prompt(book, covered_topics)}
         ],
@@ -115,7 +115,7 @@ class Brian
   def generate_post(book, topic)
     client.chat(
       parameters: {
-        model: MODEL,
+        model: TEXT_MODEL,
         messages: [
           {role: "system", content: SYSTEM_PROMPT},
           {role: "user", content: user_prompt(book, topic)}
@@ -131,10 +131,10 @@ class Brian
   def generate_audio(text)
     client.audio.speech(
       parameters: {
-        model: "tts-1",
+        model: ENV["AUDIO_MODEL"],
         input: text,
         instructions: AUDIO_PROMPT,
-        voice: "shimmer",
+        voice: "charon",
         response_format: "mp3",
         speed: 1.0
       }
